@@ -21,8 +21,8 @@ public class FilterUtil {
             }
         });
 
+        outputAverageWaitingTime(detectedRecords);
         outputEmpty(detectedRecords);
-        outputAverage(detectedRecords);
     }
 
     private static boolean filterByAll(RecordWithC recordWithC, RecordWithD recordWithD) {
@@ -43,9 +43,9 @@ public class FilterUtil {
     private static boolean filterByQuestion(RecordWithC recordWithC, RecordWithD recordWithD) {
         if (recordWithD.getQuestion()[0].equals("*")) {
             return true;
-        } else if (checkQuestionLength(recordWithD, 3)) {
+        } else if (checkLength(recordWithD, 3)) {
             return isEqual(recordWithD.getQuestion(), recordWithC.getQuestion());
-        } else if (checkQuestionLength(recordWithD, 2)) {
+        } else if (checkLength(recordWithD, 2)) {
             return isEqual(recordWithD.getQuestion(), limitQuestion(recordWithC));
         } else {
             return isEqual(recordWithD.getQuestion()[0], (recordWithC.getQuestion()[0]));
@@ -67,7 +67,7 @@ public class FilterUtil {
         }
     }
 
-    private static void outputAverage(List<RecordWithC> detectedRecords) {
+    private static void outputAverageWaitingTime(List<RecordWithC> detectedRecords) {
         OptionalDouble averageWaitingTime = detectedRecords.stream()
                 .mapToInt(RecordWithC::getWaitingTime)
                 .average();
@@ -83,7 +83,7 @@ public class FilterUtil {
         }
     }
 
-    private static boolean checkQuestionLength(RecordWithD recordWithD, int length) {
+    private static boolean checkLength(RecordWithD recordWithD, int length) {
         return recordWithD.getQuestion().length == length;
     }
 
